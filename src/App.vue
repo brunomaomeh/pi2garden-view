@@ -5,9 +5,9 @@
 </template>
 
 <script>
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'font-awesome/css/font-awesome.min.css'
-// import '@/assets/scss/new_layout.scss'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'font-awesome/css/font-awesome.min.css'
+import '@/assets/css/style.css'
 
 import AppInfo from '@/components/garden/Garden'
 
