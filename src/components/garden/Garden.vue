@@ -1,8 +1,14 @@
 <template>
   <div>
-    <input type="text" :value="uptime" />
-    <input type="button" @click="liga" value="Ligar" />
-    <input type="button" @click="desliga" value="Desligar" />
+    <input type="text" :value="garden.uptime" />
+    <button type="button" class="circle btn btn-dark"
+      v-show="!garden.on" @click="toggleOnOff">
+      <i class="fas fa-play fa-3x"></i>
+    </button>
+    <button type="button" class="circle btn btn-dark"
+      v-show="garden.on" @click="toggleOnOff">
+      <i class="fas fa-pause fa-3x"></i>
+    </button>
   </div>
 </template>
 
@@ -11,23 +17,38 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      uptime: 3000
+      garden: {
+        uptime: 3000,
+        on: false
+      }
     }
   },
 
   methods: {
-    liga () {
-      console.log(this.uptime)
-      axios.get(`http://192.168.0.7:3000/garden/on?uptime=${this.uptime}`)
-      // axios.get(`http://187.107.61.192:3000/garden/on?uptime=${this.uptime}`)
+    toggleOnOff () {
+      let url = 'http://192.168.0.7:3000'
+      if (this.garden.on) {
+        this.garden.on = !this.garden.on
+        axios.get(`${url}/garden/off`)
+      } else {
+        this.garden.on = !this.garden.on
+        axios.get(`${url}/garden/on?uptime=${this.garden.uptime}`)
+        this.turnOff()
+      }
     },
-    desliga () {
-      axios.get('http://192.168.0.5:3000/garden/off')
+    turnOff () {
+      let vm = this
+      setTimeout(function () {
+        vm.garden.on = !vm.garden.on
+      }, this.garden.uptime)
     }
+
   }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.circle {
+  border-radius:50%
+}
 </style>
