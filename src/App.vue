@@ -34,17 +34,10 @@ export default {
 
 <style lang="scss" scoped>
 .main-menu {
-  background-color:#242424;
-  color: #ccc;
+  background-color: var(--dark);
+  color: var(--light);
   padding: 15px;
   margin-bottom: 10px;
-}
-
-.main-body {
-  background-color: #eee;
-  position: relative;
-  height: 100%;
-  margin: 20px;
 }
 
 </style>

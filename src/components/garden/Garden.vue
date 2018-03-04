@@ -1,14 +1,27 @@
 <template>
-  <div>
-    <input type="text" :value="garden.uptime" />
-    <button type="button" class="circle btn btn-dark"
-      v-show="!garden.on" @click="toggleOnOff">
-      <i class="fas fa-play fa-3x"></i>
-    </button>
-    <button type="button" class="circle btn btn-dark"
-      v-show="garden.on" @click="toggleOnOff">
-      <i class="fas fa-pause fa-3x"></i>
-    </button>
+  <div class="pull-center">
+    <div class="row">
+      <div class="col-12">
+        <div class="input-group mb-5">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">uptime</span>
+          </div>
+          <input type="text" class="form-control" v-model="garden.uptime">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button type="button" class="circle btn btn-xl btn-secondary"
+          v-show="!garden.on" @click="turnOn">
+          <i class="fas fa-play"></i>
+        </button>
+        <button type="button" class="circle btn btn-xl btn-secondary"
+          v-show="garden.on" @click="turnOff">
+          <i class="fas fa-pause"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,28 +32,35 @@ export default {
     return {
       garden: {
         uptime: 3000,
-        on: false
+        on: false,
+        url: 'http://192.168.0.7:3000'
       }
     }
   },
 
   methods: {
-    toggleOnOff () {
-      let url = 'http://192.168.0.7:3000'
-      if (this.garden.on) {
-        this.garden.on = !this.garden.on
-        axios.get(`${url}/garden/off`)
-      } else {
-        this.garden.on = !this.garden.on
-        axios.get(`${url}/garden/on?uptime=${this.garden.uptime}`)
-        this.turnOff()
-      }
-    },
-    turnOff () {
-      let vm = this
-      setTimeout(function () {
-        vm.garden.on = !vm.garden.on
+    async turnOn () {
+      this.setGardenOn()
+      let response = await axios.get(`${this.garden.url}/garden/on?uptime=${this.garden.uptime}`)
+      console.log(response)
+
+      setTimeout(() => {
+        this.setGardenOff()
       }, this.garden.uptime)
+    },
+
+    async turnOff () {
+      this.setGardenOff()
+      let response = await axios.get(`${this.garden.url}/garden/off`)
+      console.log(response)
+    },
+
+    setGardenOn () {
+      this.garden.on = true
+    },
+
+    setGardenOff () {
+      this.garden.on = false
     }
 
   }
@@ -48,7 +68,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pull-center {
+  text-align: center;
+}
+
 .circle {
-  border-radius:50%
+  -webkit-border-radius: 50%;
+     -moz-border-radius: 50%;
+          border-radius: 50%;
+}
+
+.btn-xl {
+  padding: 50px 65px;
+  font-size: 110px;
+  line-height: normal;
 }
 </style>
