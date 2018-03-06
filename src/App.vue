@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div id="app">
     <header>
       <div class="main-menu">
         <div class="row align-items-center">
@@ -14,30 +14,55 @@
         </div>
       </div>
     </header>
-    <router-view></router-view>
+    <!-- <header>
+      <span>Vue.js PWA</span>
+    </header> -->
+    <main>
+      <router-view></router-view>
+    </main>
   </div>
 </template>
 
 <script>
 import 'bootstrap/dist/css/bootstrap.css'
-import '@/assets/css/style.scss'
-
-import AppInfo from '@/components/garden/Garden'
-
 export default {
-  name: 'app',
-  components: {
-    AppInfo
-  }
+  name: 'app'
 }
 </script>
 
-<style lang="scss" scoped>
-.main-menu {
-  background-color: var(--dark);
-  color: var(--light);
-  padding: 15px;
-  margin-bottom: 10px;
+<style>
+body {
+  margin: 0;
 }
 
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+main {
+  text-align: center;
+  margin-top: 40px;
+}
+
+header {
+  margin: 0;
+  height: 56px;
+  padding: 0 16px 0 24px;
+  background-color: #35495E;
+  color: #ffffff;
+}
+
+header span {
+  display: block;
+  position: relative;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: .02em;
+  font-weight: 400;
+  box-sizing: border-box;
+  padding-top: 16px;
+}
 </style>
